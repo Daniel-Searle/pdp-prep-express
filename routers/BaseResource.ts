@@ -2,6 +2,7 @@ import express from 'express';
 import {VersionService} from "../service/VersionService";
 import {TodoListService} from "../service/TodoListService";
 import {TodoList} from "../models/TodoList";
+import {Todo} from "../models/Todo";
 
 let router = express.Router();
 const bodyParser = require('body-parser');
@@ -33,6 +34,21 @@ router.get('/todoList/pending', (req, res) => {
     }
 );
 
+router.get('/todoList/:id', (req, res) => {
+        try {
+            let toDoListService = new TodoListService();
+            let data: Todo = toDoListService.getTodoListById(parseInt(req.params.id));
+            if (data) {
+                res.json(data);
+            } else {
+                res.send('No Data Found').status(204)
+            }
+        } catch (e) {
+            console.log(e);
+        }
+    }
+);
+
 router.get('/todoList', (req, res) => {
         try {
             let toDoListService = new TodoListService();
@@ -54,10 +70,10 @@ router.post('/todoList', jsonParser, (req, res) => {
     }
 );
 
-router.put('/todoList', jsonParser, (req, res) => {
+router.put('/todoList/:id', jsonParser, (req, res) => {
         try {
             let toDoListService = new TodoListService();
-            let data = toDoListService.putTodoList(req.body);
+            let data = toDoListService.putTodoList(parseInt(req.params.id));
             if (data === 'Updated record') {
                 res.json(data);
             } else if (data === null) {
