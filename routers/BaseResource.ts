@@ -3,6 +3,9 @@ import {VersionService} from "../service/VersionService";
 import {TodoListService} from "../service/TodoListService";
 import {TodoList} from "../models/TodoList";
 import {Todo} from "../models/Todo";
+import * as csvwriter from 'csv-writer'
+import * as json from '../dist/resources/TodoList.json'
+
 
 let router = express.Router();
 const bodyParser = require('body-parser');
@@ -54,6 +57,31 @@ router.get('/todoList', (req, res) => {
             let toDoListService = new TodoListService();
             let data: TodoList = toDoListService.getTodoList();
             res.json(data);
+        } catch (e) {
+            console.log(e);
+        }
+    }
+);
+
+router.get('/convert-json', (req, res) => {
+        try {
+            const createCsvWriter = csvwriter.createObjectCsvWriter
+
+            // console.log(json)
+            const csvWriter = createCsvWriter({
+                path: 'todoList.csv',
+                header: [
+                    {id: 'id', title: 'ID'},
+                    {id: 'timeStamp', title: 'TIMESTAMP'},
+                    {id: 'body', title: 'BODY'},
+                    {id: 'status', title: 'STATUS'},
+                ]
+            })
+            let json2: any = json
+
+            csvWriter.writeRecords(json2.default)
+                .then(() => console.log('Data uploaded into csv successfully'));
+            res.send('csv file created.')
         } catch (e) {
             console.log(e);
         }

@@ -19,19 +19,6 @@ export class TodoListService {
         let todoListJson = fs.readFileSync("resources/TodoList.json", "utf-8");
         let todo = JSON.parse(todoListJson);
 
-        if (todo == null) {
-            if (todo == null){
-                if (todo == null) {
-                    if (todo == null) {
-                        if (todo == null){
-                            if (todo == null) {
-
-                            }
-                        }
-                    }
-                }
-            }
-        }
         return todo.find((x: { id: number; }) => x.id === data) ? todo.find((x: { id: number; }) => x.id === data) : null;
     }
 
