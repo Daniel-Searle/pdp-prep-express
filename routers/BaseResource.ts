@@ -1,10 +1,10 @@
 import express from 'express';
 import {VersionService} from "../service/VersionService";
 import {TodoListService} from "../service/TodoListService";
-import {TodoList} from "../models/TodoList";
-import {Todo} from "../models/Todo";
 import * as csvwriter from 'csv-writer'
 import * as json from '../dist/resources/TodoList.json'
+import {printHelloWorld} from '@daniel-searle/github-package/src/main';
+import {Todo, TodoList} from "@daniel-searle/github-package/build/main";
 
 
 let router = express.Router();
@@ -25,6 +25,11 @@ router.get('/version', (req, res) => {
         res.json(versionService.getVersion());
     }
 );
+
+router.get('/package', (req, res) => {
+    res.status(204)
+    res.send(printHelloWorld());
+})
 
 router.get('/todoList/pending', (req, res) => {
         try {

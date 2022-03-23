@@ -1,5 +1,5 @@
-import {Todo} from "../models/Todo";
 import fs from "fs";
+import {Todo} from "@daniel-searle/github-package/build/main";
 
 export class TodoListService {
     /**
